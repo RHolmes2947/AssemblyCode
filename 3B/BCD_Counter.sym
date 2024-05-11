@@ -1,0 +1,14 @@
+config_hex_displays 2117
+delay_ms   211f
+digit2_pp1 000d
+digit3_pp0 000e
+dvalue     00fa
+end_bcd    0015
+extract_lsb 2149
+extract_msb 2144
+first      2006
+first_bcd  0000
+hex_display 2139
+return     2008
+stack      2000
+start      2000

@@ -1,0 +1,83 @@
+
+as12, an absolute assembler for Motorola MCU's, version 1.2h
+
+                        ; BCD_Counter.asm
+                        ; Author:               D. Haley, Faculty
+                        ; Modified by:          Rian Olson
+                        ; Student Number(s):    041073915
+                        ; Course:               CST8216
+                        ; Date:                 07/30/23
+                        ;
+                        ; Purpose       BCD Counter $00 - $15 (BCD) using Hex Displays
+                        ;               and a single register, Accumulator A, for the count
+                        ;               The range of counting can be altered by changing the
+                        ;               FIRST_BCD and END_BCD constants
+                        ;
+                        ; ***** DO NOT CHANGE ANY CODE BETWEEN THESE MARKERS *****
+                        ; Library Routines  - to be used in your solution
+                        ;
+                        
+2117                    Config_Hex_Displays         equ        $2117
+211f                    Delay_Ms                    equ        $211F
+2139                    Hex_Display                 equ        $2139
+2144                    Extract_Msb                 equ        $2144
+2149                    Extract_Lsb                 equ        $2149
+                        
+                        ; Program Constants - to be used in your solution
+2000                    STACK           equ     $2000
+                                                        ; Port P (PPT) Display Selection Values
+000e                    DIGIT3_PP0      equ     %1110   ; Left-most display MSB
+000d                    DIGIT2_PP1      equ     %1101   ; 2nd from left-most display LSB
+                        
+                        ; Delay Subroutine Value  - to be used in your solution
+00fa                    DVALUE  equ     #250            ; Delay value (base 10) 0 - 255 ms
+                                                        ; 125 = 1/8 second <- good for Dragon12 Board
+                        
+                        ; ***** END OF DO NOT CHANGE ANY CODE BETWEEN THESE MARKERS *****
+                        
+                        ; BCD Count constants  - to be used in your solution
+                        ; Changing these values will change the Starting and End BCD counts
+                        
+0000                    FIRST_BCD        equ     $00     ; Starting BCD count
+0015                    END_BCD          equ     $15     ; Ending BCD count0
+                        
+2000                            org     $2000
+2000 cf 20 00           Start   lds     #STACK          ; Initialize the Stack
+                        
+2003 16 21 17                   jsr     Config_HEX_Displays ; Use the Hex Displays to display the count
+                        ; Continually Count FIRST_BCD ... END_BCD ... FIRST_BCD ... END_BCD
+                        
+                        
+2006 96 00              First   ldaa    First_BCD       ; Load the value from memory location First_BCD into Accumulator A
+2008 81 15              Return  cmpa    #END_BCD        ; Compare the value in Accumulator A with the constant value END_BCD
+200a 22 fa                      bhi     First           ; Branch to the label First if Accumulator A is higher (greater)
+                        
+200c 36                         psha                    ; Push the value in Accumulator A onto the stack
+                        
+200d 16 21 44                   jsr     Extract_Msb     ; Call the subroutine Extract_Msb to extract the most significant digit
+2010 c6 0e                      ldab    #DIGIT3_PP0     ; Load the constant value DIGIT3_PP0 into Register B
+2012 16 21 39                   jsr     Hex_Display     ; Call the subroutine Hex_Display to display the extracted digit on a display
+                        
+2015 86 fa                      ldaa    #DVALUE         ; Load the constant value DVALUE into Accumulator A
+2017 16 21 1f                   jsr     Delay_ms        ; Call the subroutine Delay_ms to introduce a delay in milliseconds
+201a 32                         pula                    ; Pull the value from the stack into Accumulator A
+201b 36                         psha                    ; Push the value in Accumulator A onto the stack
+                        
+201c 16 21 49                   jsr     Extract_Lsb     ; Call the subroutine Extract_Lsb to extract the least significant digit
+201f c6 0d                      ldab    #DIGIT2_PP1     ; Load the constant value DIGIT2_PP1 into Register B
+2021 16 21 39                   jsr     Hex_Display     ; Call the subroutine Hex_Display to display the extracted digit on a display
+                        
+2024 86 fa                      ldaa    #DVALUE         ; Load the constant value DVALUE into Accumulator A
+2026 16 21 1f                   jsr     Delay_ms        ; Call the subroutine Delay_ms to introduce a delay in milliseconds
+2029 32                         pula                    ; Pull the value from the stack into Accumulator A
+                        
+202a 89 01                      adca    #1              ; Add 1 to the value in Accumulator A with carry
+202c 18 07                      daa                     ; Decimal adjust the result in Accumulator A after addition
+                        
+202e 20 d8                      bra     Return          ; Branch (jump) back to the label Return to continue the loop
+                        
+                                end                     ; The end of the code
+
+Executed: Fri Aug 04 08:29:16 2023
+Total cycles: 75, Total bytes: 48
+Total errors: 0, Total warnings: 0

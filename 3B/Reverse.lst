@@ -1,0 +1,16 @@
+
+as12, an absolute assembler for Motorola MCU's, version 1.2h
+
+Reverse.asm:3: Error - Unknown mnemonic: $1000
+Reverse.asm:10: Error - Unknown mnemonic: $2000
+Reverse.asm:11: Error - Unknown mnemonic: #$2000
+Reverse.asm:13: Error - Unknown mnemonic: #value1
+Reverse.asm:17: Error - Unknown mnemonic: source+4
+Reverse.asm:18: Error - Unknown mnemonic: $1000
+Reverse.asm:19: Error - Unknown mnemonic: source2
+Reverse.asm:20: Error - Unknown mnemonic: #source2
+Reverse.asm:22: Error - Unknown mnemonic: source+7
+Reverse.asm:23: Error - Unknown mnemonic: source2
+
+Executed: Tue Aug 15 17:18:25 2023
+Total errors: 10, Total warnings: 0
