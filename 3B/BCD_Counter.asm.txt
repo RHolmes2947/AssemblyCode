@@ -1,6 +1,6 @@
 ; BCD_Counter.asm
 ; Author:               D. Haley, Faculty
-; Modified by:          <place your Name(s) here>
+; Modified by:          Rian Olson
 ; Student Number(s):    <place your Studend Number(s) here>
 ; Course:               CST8216 Winter 2021
 ; Date:                 <include the code completion date here>
