@@ -1,0 +1,9 @@
+add_odd    0001
+eight      003e
+extract_lsb 2149
+extract_msb 2144
+loop       0029
+max        0009
+nine       0042
+start      0003
+sum        0000

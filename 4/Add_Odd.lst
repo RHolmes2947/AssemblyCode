@@ -1,0 +1,68 @@
+
+as12, an absolute assembler for Motorola MCU's, version 1.2h
+
+                        ; Add_Odd.asm
+                        
+                        ; Author(s): Joshua Hidocos, Rian Olson, Even Green
+                        ; Student Number(s): 040878695, 041073915, 040998760
+                        ; Date:  Augest 11, 2023
+                        
+0009                    MAX             equ        9                ; Maximum value for loop iteration
+2144                    Extract_MSB     equ        $2144            ; Memory address for MSB extraction
+2149                    Extract_LSB     equ        $2149            ; Memory address for LSB extraction
+0000 01                 sum             db         1
+                        
+0001                    Add_odd
+Add_Odd.asm:13: Error - Symbol NUMDIGITS is undefined.
+0001 86 00                      ldaa    #NUMDIGITS                 ; Load NUMDIGITS value into A register
+0003                    Start
+0003 c6 02                      ldab    #$2                        ; Load constant value 2 into B register
+0005 18 16                      sba                                ; Subtract B from A, useful for loop counter
+0007 36                         psha                               ; Push A register onto the stack
+0008 a6 00                      ldaa    0,x                        ; Load value at address pointed by X + 0 into B register
+000a 81 08                      cmpa    #8
+000c 27 30                      beq     eight
+000e 81 09                      cmpa    #9
+0010 27 30                      beq     nine
+0012 10 fe                      clc
+0014 48                         asla
+0015 c6 09                      ldab    #MAX                        ; Load maximum value (9) into B register
+0017 18 17                      cba                                 ; Compare B with A
+0019 23 0e                      bls     Loop                        ; Branch to Loop if B <= A
+001b 18 07                      daa
+001d 36                 	psha                                ; Push A onto the stack
+001e 16 21 44                   jsr     Extract_MSB                 ; Call subroutine at Extract_Msb address
+0021 33                         pulb                                ; Pull value from stack into B register
+0022 b7 81                      exg     a,b                         ; Exchange A and B registers
+0024 16 21 49                   jsr     Extract_LSB                 ; Call subroutine at Extract_Lsb address
+0027 18 06                      aba                                 ; Add B to A, result in A
+0029                    Loop
+0029 08                         inx
+002a 08                         inx
+002b 33                 	pulb                                ; Pull value from stack into B register
+002c 36                         psha                                ; Push B onto the stack
+002d b7 10                      tfr     b,a                         ; Transfer data from B to A register
+002f 81 00                      cmpa    #$0                        ; Compare A with 0
+0031 22 d0                      bhi     Start                       ; Branch to Start if A > 0
+0033 32                         pula                                ; Pull value from stack into A register
+0034 33                         pulb                                ; Pull value from stack into B register
+0035 18 06                      aba                                 ; Add A and B, result in A
+0037 18 07                      daa
+0039 b7 06                      tfr     a,y                         ; Transfer A to Y register
+003b 87                         clra                                ; Clear A register
+003c c7                         clrb                                ; Clear B register
+003d 3d                         rts                                 ; Return from subroutine
+                        
+                                end                                 ; End of the program
+                        
+003e                    eight
+003e 86 07                      ldaa    #7
+0040 20 e7                      bra     loop
+0042                    nine
+0042 86 09                      ldaa    #9
+0044 20 e3                      bra     loop
+                        
+                                
+
+Executed: Fri Aug 11 16:03:44 2023
+Total errors: 1, Total warnings: 0

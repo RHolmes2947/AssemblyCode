@@ -1,0 +1,44 @@
+
+as12, an absolute assembler for Motorola MCU's, version 1.2h
+
+                        ; Add_Even.asm
+                        ; Author(s): Joshua Hidocos, Rian Olson, Even Green
+                        ; Student Number(s): 040878695, 041073915, 040998760
+                        ; Date:  Augest 11, 2023
+                        
+0000                    Add_Even:
+Add_Even.asm:7: Error - Symbol NUMDIGITS is undefined.
+0000 c6 00                  LDAB    #NUMDIGITS  ; Load the length of the card number into register B
+                        
+0002 37                     PSHB               ; Push the original value of B onto the stack
+0003 86 00                  LDAA   #0          ; Initialize B to hold the sum of even digits
+0005 09                     dex
+0006 09                     dex
+0007 09                     dex
+0008 09                     dex
+0009                    skip:
+0009 e6 01                  LDAB    1,x                ; Load a digit from the sequence into register A
+000b 08                     inx
+000c 08                     inx
+000d 18 06                  ABA                 ; Add it to the running sum in register A
+000f 33                     PULB                ; Restore the original value of B from the stack
+0010 53                     DECB                ; Decrement B (remaining digits to process)
+0011 53                     DECB                ; Decrement B again (skipping odd digits)
+0012 37                     PSHB                ; Push the updated value of B onto the stack
+0013 b7 01                  TFR     a,b         ; Transfer the sum in A to B
+0015 87                     CLRA
+0016 32                     PULA
+0017 81 00                  CMPA    #0
+0019 36                     PSHA
+001a b7 10                  TFR     b,a
+001c 2e eb                  BGT      skip
+001e 32                     PULA
+                        
+001f 87                     CLRA                ; Clear A (cleanup)
+                        
+0020 3d                     RTS                 ; Return from the subroutine
+                        
+                            end
+
+Executed: Fri Aug 11 10:11:10 2023
+Total errors: 1, Total warnings: 0
