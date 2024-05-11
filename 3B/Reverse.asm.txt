@@ -1,9 +1,8 @@
 ; Reverse.asm
 
-; Modified by:          <place your Name(s) here>
-; Student Number(s):    <place your Studend Number(s) here>
+; Author:          Rian Olson
+; Student Number(s):    041073915
 ; Course:       	CST8216 Winter 2021
-; Date:         	<include the code completion date here>
 ;
 ; Purpose       To copy and reverse and array, while performing the following
 ;               additional operations to decrypt the Secret Message. After
